@@ -1,9 +1,11 @@
 class BankAccount:
+    all_accounts = []
     def __init__(self, int_rate = 1, balance = 0):
         int_rate = int_rate/100
         self.int_rate = int_rate
         self.balance = balance
-        
+        BankAccount.all_accounts.append(self)
+    
     def deposit(self, amount):
         self.balance += amount
         return self
@@ -31,13 +33,15 @@ class BankAccount:
             self.balance = self.balance * self.int_rate
             print (self.balance)
         return self
-
+    @classmethod
+    def all_balances(cls):
+        sum = 0
+        for accounts in cls.all_accounts:
+            sum += account.balance
+        return sum
 
 PNB = BankAccount(int_rate=2)
-SBI = BankAccount()
+SBI = BankAccount(int_rate=1)
 
-PNB.deposit(420)
-PNB.withdraw(200)
-PNB.yield_interest()
-
-
+PNB.deposit(100).deposit(100).deposit(100).withdraw(100).yield_interest().display_account_info()
+SBI.deposit(200).deposit(200).withdraw(100).withdraw(100).withdraw(100).withdraw(100).yield_interest().display_account_info()
